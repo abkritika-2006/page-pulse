@@ -1,0 +1,388 @@
+/* ============================================================
+   PAGE PULSE — design system
+   ------------------------------------------------------------
+   Concept: a developer tool, not a marketing page — the kind of
+   panel you'd see wrapping GitHub Actions output or a PageSpeed
+   report. Dark chrome, quiet cards, mono type for anything
+   measured, color spent only on status meaning (ok / warn / err).
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap');
+
+:root {
+    --bg:            #0a0e14;
+    --surface:       #11161d;
+    --surface-hover: #161c25;
+    --border:        #232b36;
+    --border-strong: #2f3947;
+
+    --text:       #e6edf3;
+    --text-dim:   #8b98a5;
+    --text-faint: #5b6773;
+
+    --accent:      #4c8bf5;
+    --accent-dim:  #3a6dc4;
+    --accent-soft: rgba(76, 139, 245, 0.12);
+
+    --ok:      #3fb950;
+    --ok-soft: rgba(63, 185, 80, 0.12);
+    --warn:      #d29922;
+    --warn-soft: rgba(210, 153, 34, 0.12);
+    --error:      #f85149;
+    --error-soft: rgba(248, 81, 73, 0.12);
+
+    --radius: 6px;
+    --font-mono: 'JetBrains Mono', 'SFMono-Regular', Menlo, monospace;
+    --font-sans: 'Inter', system-ui, sans-serif;
+
+    --ease: cubic-bezier(.2, .6, .3, 1);
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+}
+
+.app {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ------------------------------------------------------------
+   Top bar
+   ------------------------------------------------------------ */
+
+.topbar {
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+}
+
+.topbar-inner {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 1.1rem 1.5rem;
+    display: flex;
+    align-items: baseline;
+    gap: 0.7rem;
+    flex-wrap: wrap;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.logo {
+    color: var(--accent);
+    font-size: 1rem;
+}
+
+.brand-name {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: 1.05rem;
+    letter-spacing: -0.01em;
+    color: var(--text);
+}
+
+.tagline {
+    font-family: var(--font-sans);
+    font-size: 0.85rem;
+    color: var(--text-faint);
+}
+
+/* ------------------------------------------------------------
+   Main / layout
+   ------------------------------------------------------------ */
+
+.main {
+    flex: 1;
+    width: 100%;
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 2.25rem 1.5rem 3rem;
+}
+
+.panel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.4rem 1.5rem 1.5rem;
+}
+
+.field-label {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--accent);
+    margin-bottom: 0.6rem;
+    letter-spacing: 0.01em;
+}
+
+/* ------------------------------------------------------------
+   Input row
+   ------------------------------------------------------------ */
+
+.input-row {
+    display: flex;
+    align-items: stretch;
+    gap: 0.5rem;
+    background: var(--bg);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius);
+    padding: 0 0.25rem 0 0.9rem;
+    transition: border-color 0.15s var(--ease), box-shadow 0.15s var(--ease);
+}
+
+.input-row:focus-within {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+.prompt {
+    align-self: center;
+    font-family: var(--font-mono);
+    color: var(--text-faint);
+    font-size: 0.9rem;
+    user-select: none;
+}
+
+#urlInput {
+    flex: 1;
+    min-width: 0;
+    padding: 0.8rem 0.5rem;
+    background: transparent;
+    border: none;
+    color: var(--text);
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+}
+
+#urlInput::placeholder { color: var(--text-faint); }
+#urlInput:focus { outline: none; }
+
+#analyzeBtn {
+    flex-shrink: 0;
+    margin: 0.4rem 0.4rem 0.4rem 0;
+    padding: 0 1.2rem;
+    background: var(--accent);
+    color: #06101f;
+    border: none;
+    border-radius: 4px;
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: 0.88rem;
+    cursor: pointer;
+    transition: background 0.15s var(--ease);
+}
+
+#analyzeBtn:hover { background: #6ba0f7; }
+#analyzeBtn:active { background: var(--accent-dim); }
+
+#analyzeBtn:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
+#analyzeBtn:disabled {
+    background: var(--border-strong);
+    color: var(--text-faint);
+    cursor: not-allowed;
+}
+
+/* ------------------------------------------------------------
+   Loading state (spinner)
+   ------------------------------------------------------------ */
+
+#loading {
+    display: none;
+    align-items: center;
+    gap: 0.6rem;
+    margin-top: 1rem;
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    color: var(--text-dim);
+}
+
+#loading:not(:empty) { display: flex; }
+
+#loading::before {
+    content: "";
+    width: 12px;
+    height: 12px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    border: 2px solid var(--border-strong);
+    border-top-color: var(--accent);
+    animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* ------------------------------------------------------------
+   Result area
+   ------------------------------------------------------------ */
+
+.result:empty { margin: 0; }
+
+.result:not(:empty) {
+    margin-top: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    animation: settle 0.15s var(--ease);
+}
+
+@keyframes settle {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+.result .error-msg {
+    font-family: var(--font-sans);
+    font-size: 0.9rem;
+    color: var(--error);
+    background: var(--error-soft);
+    border: 1px solid rgba(248, 81, 73, 0.3);
+    border-radius: var(--radius);
+    padding: 0.9rem 1rem;
+}
+
+/* Stat grid — the 3-up row of compact readouts */
+.stat-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.9rem;
+}
+
+.two-col {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.9rem;
+}
+
+.card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1rem 1.1rem;
+}
+
+.card-label {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-faint);
+    margin-bottom: 0.5rem;
+}
+
+.dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    background: var(--text-faint);
+}
+.dot.ok    { background: var(--ok); }
+.dot.warn  { background: var(--warn); }
+.dot.error { background: var(--error); }
+
+.card-value {
+    font-family: var(--font-mono);
+    font-weight: 600;
+    font-size: 1.3rem;
+    color: var(--text);
+    line-height: 1.2;
+}
+
+.card-value.ok    { color: var(--ok); }
+.card-value.warn  { color: var(--warn); }
+.card-value.error { color: var(--error); }
+
+.card-value.small {
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: 0.95rem;
+    word-break: break-word;
+}
+
+/* Sub-label under a stat value (e.g. "Excellent" under response time) */
+.card-sub {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--text-faint);
+    margin-top: 0.35rem;
+}
+.card-sub.ok    { color: var(--ok); }
+.card-sub.warn  { color: var(--warn); }
+.card-sub.error { color: var(--error); }
+
+/* Full-width text cards (title / meta description) */
+.card-full .card-value.small {
+    line-height: 1.5;
+    color: var(--text-dim);
+}
+
+.card-full .card-value.small.empty {
+    color: var(--text-faint);
+    font-style: italic;
+}
+
+/* ------------------------------------------------------------
+   Footer
+   ------------------------------------------------------------ */
+
+footer {
+    text-align: center;
+    font-family: var(--font-sans);
+    font-size: 0.8rem;
+    color: var(--text-faint);
+    padding: 1.5rem 1.5rem 2rem;
+}
+
+footer a {
+    color: var(--text-dim);
+    text-decoration: none;
+    border-bottom: 1px solid var(--border-strong);
+}
+
+footer a:hover { color: var(--accent); border-color: var(--accent); }
+
+/* ------------------------------------------------------------
+   Responsive
+   ------------------------------------------------------------ */
+
+@media (max-width: 560px) {
+    .stat-grid { grid-template-columns: 1fr 1fr; }
+    .two-col { grid-template-columns: 1fr; }
+    .input-row { flex-wrap: wrap; padding: 0.6rem; }
+    #analyzeBtn { width: 100%; margin: 0.5rem 0 0; padding: 0.75rem; }
+    .prompt { display: none; }
+}
+
+@media (max-width: 380px) {
+    .stat-grid { grid-template-columns: 1fr; }
+}
+
+/* ------------------------------------------------------------
+   Motion preference
+   ------------------------------------------------------------ */
+
+@media (prefers-reduced-motion: reduce) {
+    #loading::before { animation: none; border-top-color: var(--border-strong); }
+    .result:not(:empty) { animation: none; }
+}

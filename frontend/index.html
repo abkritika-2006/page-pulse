@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Page Pulse</title>
+
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230a0e14'/%3E%3Cpath d='M4 16h5l3-9 5 18 3-9h8' fill='none' stroke='%234c8bf5' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap">
+
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="app">
+
+    <header class="topbar">
+        <div class="topbar-inner">
+            <div class="brand">
+                <span class="logo">&#9670;</span>
+                <span class="brand-name">Page Pulse</span>
+            </div>
+            <span class="tagline">Website Analysis &amp; SEO Audit Tool</span>
+        </div>
+    </header>
+
+    <main class="main">
+
+        <section class="panel">
+            <label class="field-label" for="urlInput">// target url</label>
+
+            <div class="input-row">
+                <span class="prompt">$</span>
+                <input
+                    id="urlInput"
+                    type="text"
+                    placeholder="https://example.com"
+                    autocomplete="off"
+                    spellcheck="false"
+                >
+                <button id="analyzeBtn" onclick="analyzeWebsite()">Analyze</button>
+            </div>
+
+            <div id="loading"></div>
+        </section>
+
+        <section id="result" class="result"></section>
+
+    </main>
+
+    <footer>
+        Built for <a href="https://digitalheroesco.com" target="_blank" rel="noopener">Digital Heroes Training Task</a>
+    </footer>
+
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
