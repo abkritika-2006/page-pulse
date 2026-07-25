@@ -154,7 +154,12 @@ npm test
 
 ## AI Usage
 
-ChatGPT was used to discuss project structure, review implementation ideas, and assist in refining the user interface and documentation. The application was implemented, tested, and customized based on those suggestions.
+AI tools were used as development assistants during this project.
+
+- **ChatGPT** was used to discuss the project structure, review backend implementation, assist with testing, improve documentation, and provide general development guidance.
+- **Claude** was used to help refine the frontend user interface, including the layout, styling, and overall visual design.
+
+All code was reviewed, integrated, tested, and modified by me to meet the project requirements.
 
 ---
 
