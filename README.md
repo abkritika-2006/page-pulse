@@ -156,10 +156,10 @@ npm test
 
 AI tools were used as development assistants during this project.
 
-- **ChatGPT** was used to discuss the project structure, review backend implementation, assist with testing, improve documentation, and provide general development guidance.
-- **Claude** was used to help refine the frontend user interface, including the layout, styling, and overall visual design.
+- **ChatGPT** was used for project planning, backend implementation guidance, testing strategy, and documentation.
+- **Claude** was used to help refine the frontend user interface, including the visual layout and styling.
 
-All code was reviewed, integrated, tested, and modified by me to meet the project requirements.
+The final application was integrated, tested, debugged, and adapted by me to satisfy the project requirements.
 
 ---
 
