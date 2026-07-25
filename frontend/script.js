@@ -27,9 +27,11 @@ function normalizeUrl(raw) {
 // Give the response time a plain-language meaning + status class.
 function responseTimeMeta(responseTimeStr) {
     const ms = parseInt(String(responseTimeStr).match(/\d+/)?.[0] ?? "0", 10);
+
     if (ms <= 150) return { label: "Excellent", cls: "ok" };
     if (ms <= 500) return { label: "Good", cls: "ok" };
     if (ms <= 1200) return { label: "Moderate", cls: "warn" };
+
     return { label: "Slow", cls: "error" };
 }
 
@@ -55,9 +57,11 @@ async function analyzeWebsite() {
 
     try {
 
-        const response = await fetch("http://localhost:3000/analyze", {
+        const response = await fetch("https://page-pulse-backend-fk2w.onrender.com/analyze", {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: {
+                "Content-Type": "application/json"
+            },
             body: JSON.stringify({ url })
         });
 
@@ -72,55 +76,96 @@ async function analyzeWebsite() {
         }
 
         const sCls = statusClass(data.httpStatus);
+
         const altCount = Number(data.imagesMissingAlt) || 0;
-        const altCls = altCount === 0 ? "ok" : (altCount <= 3 ? "warn" : "error");
+        const altCls =
+            altCount === 0
+                ? "ok"
+                : altCount <= 3
+                ? "warn"
+                : "error";
+
         const rt = responseTimeMeta(data.responseTime);
 
-        const title = data.pageTitle ? escapeHtml(data.pageTitle) : "";
-        const desc = data.metaDescription ? escapeHtml(data.metaDescription) : "";
+        const title = data.pageTitle
+            ? escapeHtml(data.pageTitle)
+            : "";
+
+        const desc = data.metaDescription
+            ? escapeHtml(data.metaDescription)
+            : "";
 
         result.innerHTML = `
 
 <div class="stat-grid">
 
     <div class="card">
-        <div class="card-label"><span class="dot ${sCls}"></span>HTTP Status</div>
-        <div class="card-value ${sCls}">${escapeHtml(data.httpStatus)}</div>
+        <div class="card-label">
+            <span class="dot ${sCls}"></span>
+            HTTP Status
+        </div>
+        <div class="card-value ${sCls}">
+            ${escapeHtml(data.httpStatus)}
+        </div>
     </div>
 
     <div class="card">
-        <div class="card-label"><span class="dot ${rt.cls}"></span>Response Time</div>
-        <div class="card-value ${rt.cls}">⚡ ${escapeHtml(data.responseTime)}</div>
-        <div class="card-sub ${rt.cls}">${rt.label}</div>
+        <div class="card-label">
+            <span class="dot ${rt.cls}"></span>
+            Response Time
+        </div>
+        <div class="card-value ${rt.cls}">
+            ⚡ ${escapeHtml(data.responseTime)}
+        </div>
+        <div class="card-sub ${rt.cls}">
+            ${rt.label}
+        </div>
     </div>
 
     <div class="card">
-        <div class="card-label">H1 Count</div>
-        <div class="card-value">${escapeHtml(data.h1Count)}</div>
+        <div class="card-label">
+            H1 Count
+        </div>
+        <div class="card-value">
+            ${escapeHtml(data.h1Count)}
+        </div>
     </div>
 
 </div>
 
 <div class="card card-full">
     <div class="card-label">// page title</div>
-    <div class="card-value small ${title ? "" : "empty"}">${title || "No title found"}</div>
+    <div class="card-value small ${title ? "" : "empty"}">
+        ${title || "No title found"}
+    </div>
 </div>
 
 <div class="card card-full">
     <div class="card-label">// meta description</div>
-    <div class="card-value small ${desc ? "" : "empty"}">${desc || "No meta description found"}</div>
+    <div class="card-value small ${desc ? "" : "empty"}">
+        ${desc || "No meta description found"}
+    </div>
 </div>
 
 <div class="two-col">
 
     <div class="card">
-        <div class="card-label"><span class="dot ${altCls}"></span>Images Missing Alt</div>
-        <div class="card-value ${altCls}">${escapeHtml(data.imagesMissingAlt)}</div>
+        <div class="card-label">
+            <span class="dot ${altCls}"></span>
+            Images Missing Alt
+        </div>
+        <div class="card-value ${altCls}">
+            ${escapeHtml(data.imagesMissingAlt)}
+        </div>
     </div>
 
     <div class="card">
-        <div class="card-label">Approx. Word Count</div>
-        <div class="card-value">${escapeHtml(data.approximateWordCount)}</div>
+        <div class="card-label">
+            Approx. Word Count
+        </div>
+        <div class="card-value">
+            ${escapeHtml(data.approximateWordCount)}
+        </div>
     </div>
 
 </div>
@@ -132,7 +177,11 @@ async function analyzeWebsite() {
         loading.textContent = "";
         button.disabled = false;
 
-        result.innerHTML = `<p class="error-msg">Unable to connect to the server. Make sure the backend is running on port 3000.</p>`;
+        result.innerHTML = `
+            <p class="error-msg">
+                Unable to connect to the Page Pulse API. Please try again in a few moments.
+            </p>
+        `;
 
     }
 
@@ -140,10 +189,19 @@ async function analyzeWebsite() {
 
 // Allow pressing Enter in the URL field to trigger analysis.
 document.addEventListener("DOMContentLoaded", () => {
+
     const urlInput = document.getElementById("urlInput");
+
     if (urlInput) {
+
         urlInput.addEventListener("keydown", (e) => {
-            if (e.key === "Enter") analyzeWebsite();
+
+            if (e.key === "Enter") {
+                analyzeWebsite();
+            }
+
         });
+
     }
+
 });
